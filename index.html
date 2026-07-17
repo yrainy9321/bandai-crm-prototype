@@ -523,6 +523,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino 
 .al-icon svg { width:20px; height:20px; }
 .cm-icon svg { width:48px; height:48px; }
 h3 svg { width:20px; height:20px; vertical-align:-3px; margin-right:4px; }
+h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
 .btn svg { width:14px; height:14px; vertical-align:-2px; margin-right:3px; }
 .pos-header svg { width:18px; height:18px; vertical-align:-3px; margin-right:4px; }
 .barcode-hint svg { width:14px; height:14px; vertical-align:-2px; margin-right:3px; }
@@ -1460,10 +1461,10 @@ function drawLines(type) {
 
     // Account for scroll offsets within scrollable ancestors
     let scrollOffsetY = 0;
-    let el = src;
-    while(el && el !== area) {
-      if(el.scrollTop) scrollOffsetY += el.scrollTop;
-      el = el.parentElement;
+    let scrollEl = src;
+    while(scrollEl && scrollEl !== area) {
+      if(scrollEl.scrollTop) scrollOffsetY += scrollEl.scrollTop;
+      scrollEl = scrollEl.parentElement;
     }
     const x1 = srcRect.right - areaRect.left;
     const y1 = srcRect.top + srcRect.height/2 - areaRect.top + scrollOffsetY;
