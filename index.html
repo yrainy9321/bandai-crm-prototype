@@ -1543,9 +1543,6 @@ function attachScrollListeners() {
   document.querySelectorAll('.ad-content').forEach(el => el.addEventListener('scroll', scheduleRedraw, {passive:true}));
   // Page-level scroll
   window.addEventListener('scroll', scheduleRedraw, {passive:true});
-  // Also observe DOM changes (e.g. class toggles that change layout)
-  const observer = new MutationObserver(()=> scheduleRedraw());
-  observer.observe(document.body, {attributes:true, subtree:true, attributeFilter:['class','style']});
 }
 attachScrollListeners();
 
