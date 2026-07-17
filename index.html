@@ -239,7 +239,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino 
 .proto-area { display:flex; position:relative; min-height:700px; gap:0; }
 
 /* SVG overlay for connection lines */
-.conn-svg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10; }
+.conn-svg { position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:10; }
 .conn-svg path { fill:none; stroke-width:1.5; stroke-dasharray:5 4; opacity:.5; }
 .conn-svg circle { opacity:.7; }
 
@@ -389,10 +389,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino 
 /* ============================================================
    ADMIN PROTOTYPE
    ============================================================ */
-.admin-layout { display:flex; min-height:calc(100vh - 160px); position:relative; }
+.admin-layout { display:flex; min-height:calc(100vh - 112px); position:relative; }
 
 /* Sidebar */
-.ad-sidebar { width:200px; background:var(--dark); color:#a0a4b8; display:flex; flex-direction:column; position:sticky; top:120px; align-self:flex-start; height:fit-content; max-height:calc(100vh - 140px); border-radius:0 0 12px 0; z-index:5; }
+.ad-sidebar { width:200px; background:var(--dark); color:#a0a4b8; display:flex; flex-direction:column; position:sticky; top:120px; align-self:flex-start; min-height:calc(100vh - 120px); max-height:calc(100vh - 120px); border-radius:0 0 12px 0; z-index:5; }
 .ad-sidebar-logo { padding:16px; border-bottom:1px solid rgba(255,255,255,.08); }
 .ad-sidebar-logo h2 { font-size:14px; color:white; }
 .ad-sidebar-logo p { font-size:10px; color:#a0a4b8; margin-top:2px; }
@@ -405,9 +405,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino 
 .ad-sidebar-ft { padding:10px 16px; border-top:1px solid rgba(255,255,255,.08); font-size:10px; color:#a0a4b8; margin-top:auto; }
 
 /* Admin content */
-.ad-content { flex:1; min-width:0; padding:20px; }
+.ad-content { flex:1; min-width:0; padding:24px 28px; }
 .ad-mid { flex:0 0 60px; position:relative; }
-.ad-right { flex:0 0 400px; position:sticky; top:120px; align-self:flex-start; max-height:calc(100vh - 140px); overflow-y:auto; background:var(--spec-bg); border-left:2px solid #f0e6c0; z-index:5; }
+.ad-right { flex:0 0 400px; position:sticky; top:120px; align-self:flex-start; max-height:calc(100vh - 120px); overflow-y:auto; background:var(--spec-bg); border-left:2px solid #f0e6c0; z-index:5; }
 .ad-right-hd { background:linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%); color:white; padding:14px 18px; position:sticky; top:0; z-index:10; }
 .ad-right-hd h3 { font-size:14px; }
 .ad-right-hd p { font-size:11px; color:#adb5bd; margin-top:2px; }
@@ -1433,22 +1433,22 @@ function switchAd(idx) {
 const COLORS = ['#e63946','#457b9d','#2d6a4f','#e9c46a','#7c3aed','#c5221f','#1a73e8','#ea8600'];
 
 function drawLines(type) {
-  const prefix = type === 'mp' ? 'mp' : 'ad';
   const svgId = type === 'mp' ? 'mpSvg' : 'adminSvg';
   const areaId = type === 'mp' ? 'mpArea' : 'adminArea';
   const svg = document.getElementById(svgId);
   const area = document.getElementById(areaId);
   if(!svg || !area) return;
 
-  const areaRect = area.getBoundingClientRect();
-  svg.setAttribute('width', areaRect.width);
-  svg.setAttribute('height', areaRect.height);
+  // SVG is position:fixed covering the viewport, so coords = viewport coords
+  svg.setAttribute('width', window.innerWidth);
+  svg.setAttribute('height', window.innerHeight);
   svg.innerHTML = '';
 
   const sources = area.querySelectorAll('[data-conn]');
   const connMap = {};
   sources.forEach(el => { connMap[el.dataset.conn] = el; });
 
+  const vh = window.innerHeight;
   const specs = area.querySelectorAll('[data-spec]');
   specs.forEach(el => {
     const key = el.dataset.spec;
@@ -1460,17 +1460,27 @@ function drawLines(type) {
 
     if(srcRect.height === 0 || tgtRect.height === 0) return;
 
-    // Account for scroll offsets within scrollable ancestors
-    let scrollOffsetY = 0;
-    let scrollEl = src;
-    while(scrollEl && scrollEl !== area) {
-      if(scrollEl.scrollTop) scrollOffsetY += scrollEl.scrollTop;
-      scrollEl = scrollEl.parentElement;
+    // Skip if either endpoint is outside the viewport
+    if(srcRect.bottom < 0 || srcRect.top > vh) return;
+    if(tgtRect.bottom < 0 || tgtRect.top > vh) return;
+
+    // Check if source is inside a scroll container and clipped
+    let scrollContainer = src.parentElement;
+    while(scrollContainer && scrollContainer !== area) {
+      const os = getComputedStyle(scrollContainer).overflowY;
+      if(os === 'auto' || os === 'scroll') {
+        const cRect = scrollContainer.getBoundingClientRect();
+        if(srcRect.top >= cRect.bottom - 2 || srcRect.bottom <= cRect.top + 2) return;
+        break;
+      }
+      scrollContainer = scrollContainer.parentElement;
     }
-    const x1 = srcRect.right - areaRect.left;
-    const y1 = srcRect.top + srcRect.height/2 - areaRect.top + scrollOffsetY;
-    const x2 = tgtRect.left - areaRect.left;
-    const y2 = tgtRect.top + tgtRect.height/2 - areaRect.top + scrollOffsetY;
+
+    // Viewport coords used directly as SVG coords
+    const x1 = srcRect.right;
+    const y1 = srcRect.top + srcRect.height/2;
+    const x2 = tgtRect.left;
+    const y2 = tgtRect.top + tgtRect.height/2;
 
     if(x1 >= x2 - 10) return;
 
@@ -1483,7 +1493,7 @@ function drawLines(type) {
     path.setAttribute('stroke', color);
     svg.appendChild(path);
 
-    // Draw rounded-rect endpoints instead of circles
+    // Draw rounded-rect endpoints
     const sz = 7;
     const r1 = document.createElementNS('http://www.w3.org/2000/svg','rect');
     r1.setAttribute('x',x1-sz/2); r1.setAttribute('y',y1-sz/2);
