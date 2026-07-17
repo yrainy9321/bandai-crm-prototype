@@ -568,7 +568,7 @@ h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
     <h1>万代CRM对接 — 产品原型与需求说明</h1>
     <div class="sub">可交互原型 · 功能规格标注 · 连线对照</div>
   </div>
-  <div class="badge" style="background:#6c757d;">过渡方案 v2.0</div>
+  <div class="badge" style="background:var(--primary);">v2.0</div>
 </div>
 
 <!-- ===== TAB NAV ===== -->
@@ -584,18 +584,12 @@ h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
 <div class="section active" id="sec-prd">
 <div class="prd-container">
 
-  <!-- Compromise Notice -->
-  <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-size:13px;color:#795548;">
-    <svg viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0;color:#e65100;"><use href="#i-warning"></use></svg>
-    <span><strong>方案背景说明：</strong>直接与收银机系统对接是最优方案，但因POS系统由品牌方统一管控、不可改造，不得已采用以下过渡方案。该方案需要店员在手机、POS、后台多端之间切换操作，对收银体验有一定牺牲。</span>
-  </div>
-
   <!-- Hero -->
   <div class="prd-hero" style="background:linear-gradient(135deg, #457b9d 0%, #1d3557 60%, #0d1b2a 100%);">
-    <h2>万代CRM优惠券核销 — 过渡方案</h2>
-    <div class="subtitle">由于POS系统无法直接对接，以下方案通过"收银员小程序 + 管理后台"的中间系统实现基本功能。需要说明的是，这不是理想方案——收银员需要在手机和POS之间反复操作，体验有所牺牲，但在当前限制下是可行的过渡路径。</div>
+    <h2>万代CRM优惠券核销 — 中间系统方案</h2>
+    <div class="subtitle">通过"收银员小程序 + 管理后台"的中间系统，实现万代CRM优惠券核销与订单同步功能。</div>
     <div class="meta">
-      <span>版本 v2.0</span><span>日期 2026-07-17</span><span>状态 过渡方案评审稿</span>
+      <span>版本 v2.0</span><span>日期 2026-07-17</span><span>状态 评审稿</span>
     </div>
   </div>
 
@@ -608,17 +602,17 @@ h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
     </div>
     <div class="exec-card solution">
       <div class="ec-icon"><svg viewBox="0 0 24 24"><use href="#i-lightbulb"></use></svg></div>
-      <h3>不得已的方案</h3>
-      <p>在无法改造POS的现实下，只能自建中间系统。收银员需要<strong>同时操作手机小程序和POS两台设备</strong>：小程序负责查会员、验券、算金额、生成条码；POS负责扫码录入和收款。收银员要在两台设备间来回对照操作，<strong>体验不如直接对接POS</strong>，但目前没有更好的选择。</p>
+      <h3>中间系统方案</h3>
+      <p>自建中间系统，收银员通过<strong>手机小程序</strong>完成会员识别、验券、金额计算和条码生成，再通过<strong>POS</strong>扫码录入和收款。小程序负责对接万代CRM API，POS负责商品录入和支付结算。</p>
     </div>
     <div class="exec-card advantage">
-      <div class="ec-icon"><svg viewBox="0 0 24 24"><use href="#i-warning"></use></svg></div>
-      <h3>方案的妥协与取舍</h3>
+      <div class="ec-icon"><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg></div>
+      <h3>方案优势</h3>
       <ul>
-        <li><strong>不改造POS</strong>：这是前提条件而非优势，代价是收银员要多端操作</li>
-        <li><strong>降低出错率</strong>：相比完全手工操作，至少有系统辅助计算和校验</li>
-        <li><strong>可独立部署</strong>：中间系统不依赖POS改造周期，能先上线缓解业务压力</li>
-        <li><strong>长期仍建议对接POS</strong>：本方案仅为过渡，待POS开放接口后应尽快迁移</li>
+        <li><strong>无需改造POS</strong>：独立于POS系统运行，不受品牌方改造周期限制</li>
+        <li><strong>系统校验</strong>：券的真伪、适用规则、金额计算由系统自动完成，降低人工出错率</li>
+        <li><strong>快速上线</strong>：中间系统可独立部署，先解决业务痛点</li>
+        <li><strong>可扩展</strong>：未来POS开放接口后，可平滑升级为直接对接</li>
       </ul>
     </div>
   </div>
@@ -637,20 +631,20 @@ h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
     </div>
     <div class="ba-arrow"><svg viewBox="0 0 24 24"><use href="#i-arrow-right"></use></svg></div>
     <div class="ba-side after">
-      <h3><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg> 过渡方案下（有系统辅助，但非理想）</h3>
+      <h3><svg viewBox="0 0 24 24"><use href="#i-check"></use></svg> 使用中间系统后</h3>
       <ul>
-        <li>扫码可识别会员，但需要收银员在小程序和POS间来回操作</li>
-        <li>系统自动计算优惠金额，但收银员需手动在POS上输入对应金额</li>
-        <li>规则由系统校验，但收银员仍需理解多端操作流程</li>
-        <li>交易完成后可同步至万代CRM，但同步为异步操作，存在失败可能</li>
-        <li>退货规则内置系统，但退货操作同样需要多端配合</li>
+        <li>扫码识别会员，小程序自动拉取会员信息和可用券</li>
+        <li>系统自动计算优惠金额，生成POS端条码供扫描录入</li>
+        <li>券适用规则、等级限购等由系统自动校验</li>
+        <li>交易完成后异步同步至万代CRM，含重试机制</li>
+        <li>退货规则内置系统，支持原路退回和券状态回滚</li>
       </ul>
     </div>
   </div>
 
   <!-- Scenario Walkthrough -->
-  <div class="scenario-title">过渡方案如何运作？—— 一个完整的交易场景（需多端操作）</div>
-  <div class="scenario-desc">以顾客王先生使用3张券购买3件商品为例。注意：收银员需在手机小程序和POS之间来回切换，这是无法直接对接POS的不得已做法。</div>
+  <div class="scenario-title">一个完整的交易场景</div>
+  <div class="scenario-desc">以顾客王先生使用3张券购买3件商品为例，展示完整的交易流程。</div>
 
   <div class="scenario-grid">
     <div class="scenario-card">
@@ -704,22 +698,21 @@ h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
 
   <!-- Architecture -->
   <div class="arch-card">
-    <h3><svg viewBox="0 0 24 24"><use href="#i-cube"></use></svg> 系统架构（过渡方案）</h3>
-    <div style="font-size:12px;color:var(--text-sec);margin-bottom:8px;padding:6px 10px;background:#fff8e1;border-radius:6px;border:1px solid #ffe082;">⚠ 下图中小程序与POS之间通过"人工扫码+肉眼读取"传递数据，是本方案最大的体验瓶颈。理想方案应为POS直接调用CRM接口。</div>
+    <h3><svg viewBox="0 0 24 24"><use href="#i-cube"></use></svg> 系统架构</h3>
     <div class="arch-diagram">┌─────────────────────────────────────────────────────┐
 │                    门店现场                           │
 │                                                      │
 │  ┌──────────┐    扫码枪扫描      ┌──────────────┐    │
 │  │  POS系统  │ ◄─────────────── │  收银员手机    │    │
-│  │ (不可改造) │  小程序屏幕条码   │  (小程序)     │    │
+│  │           │  小程序屏幕条码   │  (小程序)     │    │
 │  │           │                  │              │    │
-│  │ 收款方式:  │    收银员读取指引  │  商品目录     │    │
+│  │ 收款方式:  │    读取操作指引   │  商品目录     │    │
 │  │ 会员验券   │ ◄─────────────── │  券规则引擎   │    │
 │  │ 组合支付   │   按指引操作POS   │  条码生成器   │    │
 │  └────┬─────┘                 └──────┬───────┘    │
 │       │                              │              │
-│       │  ⚠ 人工搬运数据               │  API调用      │
-│       │  (扫码+肉眼读取+手动输入)      │              │
+│       │  数据传递                     │  API调用      │
+│       │  (扫码+条码识别)              │              │
 │       └──────────► ◄─────────────────┘              │
 └─────────────────────────────────────────────────────┘
                          │ HTTPS + MD5签名
@@ -800,11 +793,11 @@ h4 svg { width:16px; height:16px; vertical-align:-2px; margin-right:4px; }
     <div class="faq-grid">
       <div class="faq-card">
         <div class="q">收银员需要培训吗？</div>
-        <div class="a">需要一定的适应期。虽然券的规则由系统自动计算，但收银员需要同时操作手机小程序和POS两台设备，在它们之间来回切换查看指引、扫码、录入金额。初期建议安排专人带教，熟练后方可独立操作。</div>
+        <div class="a">需要。收银员需同时操作手机小程序和POS两台设备，包括在小程序上扫码验券、查看操作指引、在POS上扫码收款等。初期建议安排专人带教，熟悉流程后再独立操作。</div>
       </div>
       <div class="faq-card">
         <div class="q">POS系统真的不需要改造吗？</div>
-        <div class="a">是的，POS完全不需要改造——这恰恰是本方案的局限所在。理想情况应由POS直接调用CRM接口完成券核销，但因POS由品牌方统一管控无法改造，才不得不用小程序作为"中间人"，由人工在两端搬运数据。</div>
+        <div class="a">不需要。POS系统由品牌方统一管控，本方案通过中间系统独立完成会员识别、验券、金额计算等功能，不依赖POS侧的任何改造。</div>
       </div>
       <div class="faq-card">
         <div class="q">如果网络中断怎么办？</div>
