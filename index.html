@@ -1549,6 +1549,8 @@ window.addEventListener('resize', ()=>{
 function attachScrollListeners() {
   // Phone screens
   document.querySelectorAll('.scr').forEach(el => el.addEventListener('scroll', scheduleRedraw, {passive:true}));
+  // Product list inside phone screen (nested scroll container, scroll doesn't bubble)
+  document.querySelectorAll('.prod-list').forEach(el => el.addEventListener('scroll', scheduleRedraw, {passive:true}));
   // Admin content area
   document.querySelectorAll('.ad-content').forEach(el => el.addEventListener('scroll', scheduleRedraw, {passive:true}));
   // Page-level scroll
