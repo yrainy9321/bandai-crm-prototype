@@ -101,17 +101,20 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
    PRD SECTION
    =========================================================== */
 .prd-container { max-width:1080px; margin:0 auto; padding:36px 40px 56px; }
-.prd-layout { display:flex; gap:30px; max-width:1320px; margin:0 auto; padding:24px 28px 56px; align-items:flex-start; }
+.prd-layout { display:flex; gap:18px; max-width:1280px; margin:0 auto; padding:26px 32px 56px; align-items:flex-start; }
 #sec-prd .prd-container { max-width:none; flex:1 1 auto; min-width:0; margin:0; }
-.prd-toc { position:sticky; top:24px; align-self:flex-start; flex:0 0 224px; width:224px; max-height:calc(100vh - 104px); overflow-y:auto; padding-right:4px; }
-.prd-toc .toc-title { font-size:11.5px; font-weight:700; color:var(--text-sec); letter-spacing:.1em; text-transform:uppercase; margin:2px 0 12px 12px; }
-.prd-toc .toc-nav { display:flex; flex-direction:column; gap:1px; border-left:2px solid var(--border); }
-.prd-toc .toc-nav a { font-size:13px; color:#475569; text-decoration:none; padding:7px 12px; border-left:2px solid transparent; margin-left:-2px; line-height:1.4; border-radius:0 6px 6px 0; transition:all .15s; cursor:pointer; }
-.prd-toc .toc-nav a:hover { color:var(--accent); background:#fafbfc; }
-.prd-toc .toc-nav a.active { color:var(--accent); font-weight:600; border-left-color:var(--accent); background:var(--accent-soft); }
-.prd-toc .toc-sep { height:1px; background:var(--border); margin:9px 0 9px 12px; }
-#sec-prd [id] { scroll-margin-top:18px; }
-@media (max-width: 940px){ #sec-prd .prd-layout{ flex-direction:column; gap:18px; } #sec-prd .prd-toc{ display:none; } }
+.prd-toc { position:sticky; top:22px; align-self:flex-start; flex:0 0 188px; width:188px; max-height:calc(100vh - 108px); overflow-y:auto; padding:2px 0; }
+.prd-toc::-webkit-scrollbar { width:0; height:0; }
+.prd-toc .toc-label { font-size:10.5px; font-weight:700; color:#cbd5e1; letter-spacing:.12em; text-transform:uppercase; margin:16px 0 5px 2px; }
+.prd-toc .toc-label:first-child { margin-top:0; }
+.prd-toc .toc-nav { display:flex; flex-direction:column; gap:1px; }
+.prd-toc .toc-nav a { position:relative; display:block; font-size:13px; color:#64748b; text-decoration:none; padding:6px 10px 6px 20px; line-height:1.45; border-radius:7px; transition:color .18s ease, background .18s ease; cursor:pointer; }
+.prd-toc .toc-nav a::before { content:''; position:absolute; left:7px; top:50%; width:5px; height:5px; border-radius:50%; background:var(--accent); transform:translateY(-50%) scale(.35); opacity:0; transition:opacity .22s ease, transform .22s cubic-bezier(.34,1.56,.64,1); }
+.prd-toc .toc-nav a:hover { color:#0f172a; background:#f8fafc; }
+.prd-toc .toc-nav a.active { color:#0f172a; font-weight:600; background:#f8fafc; }
+.prd-toc .toc-nav a.active::before { opacity:1; transform:translateY(-50%) scale(1); }
+#sec-prd [id] { scroll-margin-top:20px; }
+@media (max-width: 940px){ #sec-prd .prd-layout{ flex-direction:column; gap:16px; } #sec-prd .prd-toc{ display:none; } }
 .prd-hero { background:radial-gradient(120% 140% at 85% 0%, #1f2733 0%, #0d1117 60%); color:#fff; border-radius:18px; padding:46px 44px 40px; margin-bottom:34px; position:relative; overflow:hidden; box-shadow:var(--shadow-md); }
 .prd-hero::after { content:''; position:absolute; right:-40px; top:-40px; width:300px; height:300px; background:radial-gradient(circle at top right, rgba(226,55,68,.20), transparent 70%); }
 .prd-hero h2 { font-size:27px; letter-spacing:-.02em; margin-bottom:12px; position:relative; z-index:1; font-weight:700; }
@@ -800,7 +803,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 <div class="section active" id="sec-prd">
 <div class="prd-layout">
   <aside class="prd-toc">
-    <div class="toc-title">目录</div>
+    <div class="toc-label">概览</div>
     <nav class="toc-nav">
       <a href="#prd-hero" onclick="scrollToPRD('prd-hero');return false;">概览</a>
       <a href="#prd-exec" onclick="scrollToPRD('prd-exec');return false;">方案概述</a>
@@ -810,7 +813,9 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
       <a href="#prd-rules" onclick="scrollToPRD('prd-rules');return false;">业务规则</a>
       <a href="#prd-calc" onclick="scrollToPRD('prd-calc');return false;">金额计算</a>
       <a href="#prd-faq" onclick="scrollToPRD('prd-faq');return false;">常见问题</a>
-      <div class="toc-sep"></div>
+    </nav>
+    <div class="toc-label">文档</div>
+    <nav class="toc-nav">
       <a href="#prd-goal" onclick="scrollToPRD('prd-goal');return false;">目标与范围</a>
       <a href="#prd-kpi" onclick="scrollToPRD('prd-kpi');return false;">成功指标</a>
       <a href="#prd-nfr" onclick="scrollToPRD('prd-nfr');return false;">非功能需求</a>
@@ -2028,10 +2033,24 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 </div>
 
 <script>
-// ===== PRD 目录导航（左侧 TOC：平滑跳转 + 滚动高亮） =====
+// ===== PRD 目录导航（左侧 TOC：缓动平滑跳转 + 滚动高亮） =====
+function smoothScrollTo(container, to){
+  var start = container.scrollTop, diff = to - start, dur = 620, t0 = performance.now();
+  function tick(now){
+    var p = Math.min(1, (now - t0) / dur);
+    var e = p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2; // easeInOutCubic
+    container.scrollTop = start + diff * e;
+    if(p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 function scrollToPRD(id){
+  var sec = document.getElementById('sec-prd');
   var el = document.getElementById(id);
-  if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  if(!sec || !el) return;
+  var to = sec.scrollTop + el.getBoundingClientRect().top - sec.getBoundingClientRect().top - 18;
+  to = Math.max(0, Math.min(to, sec.scrollHeight - sec.clientHeight));
+  smoothScrollTo(sec, to);
 }
 (function(){
   var sec = document.getElementById('sec-prd');
@@ -2040,16 +2059,24 @@ function scrollToPRD(id){
   var map = {};
   links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
   var targets = Object.keys(map).map(function(k){ return document.getElementById(k); }).filter(Boolean);
-  if(!('IntersectionObserver' in window) || !targets.length) return;
+  if(!targets.length) return;
+  if(!('IntersectionObserver' in window)) return;
+  var visible = {};
   var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        links.forEach(function(l){ l.classList.remove('active'); });
-        var a = map[e.target.id];
-        if(a) a.classList.add('active');
+    entries.forEach(function(e){ visible[e.target.id] = e.isIntersecting ? e.target : null; });
+    var best = null, bestTop = Infinity;
+    targets.forEach(function(t){
+      if(visible[t.id]){
+        var top = t.getBoundingClientRect().top;
+        if(top < bestTop){ bestTop = top; best = t; }
       }
     });
-  }, { root: sec, rootMargin: '0px 0px -65% 0px', threshold: 0 });
+    if(best){
+      links.forEach(function(l){ l.classList.remove('active'); });
+      var a = map[best.id];
+      if(a) a.classList.add('active');
+    }
+  }, { root: sec, rootMargin: '-10% 0px -64% 0px', threshold: 0 });
   targets.forEach(function(t){ io.observe(t); });
 })();
 
