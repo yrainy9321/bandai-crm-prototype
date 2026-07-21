@@ -101,6 +101,17 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
    PRD SECTION
    =========================================================== */
 .prd-container { max-width:1080px; margin:0 auto; padding:36px 40px 56px; }
+.prd-layout { display:flex; gap:30px; max-width:1320px; margin:0 auto; padding:24px 28px 56px; align-items:flex-start; }
+#sec-prd .prd-container { max-width:none; flex:1 1 auto; min-width:0; margin:0; }
+.prd-toc { position:sticky; top:24px; align-self:flex-start; flex:0 0 224px; width:224px; max-height:calc(100vh - 104px); overflow-y:auto; padding-right:4px; }
+.prd-toc .toc-title { font-size:11.5px; font-weight:700; color:var(--text-sec); letter-spacing:.1em; text-transform:uppercase; margin:2px 0 12px 12px; }
+.prd-toc .toc-nav { display:flex; flex-direction:column; gap:1px; border-left:2px solid var(--border); }
+.prd-toc .toc-nav a { font-size:13px; color:#475569; text-decoration:none; padding:7px 12px; border-left:2px solid transparent; margin-left:-2px; line-height:1.4; border-radius:0 6px 6px 0; transition:all .15s; cursor:pointer; }
+.prd-toc .toc-nav a:hover { color:var(--accent); background:#fafbfc; }
+.prd-toc .toc-nav a.active { color:var(--accent); font-weight:600; border-left-color:var(--accent); background:var(--accent-soft); }
+.prd-toc .toc-sep { height:1px; background:var(--border); margin:9px 0 9px 12px; }
+#sec-prd [id] { scroll-margin-top:18px; }
+@media (max-width: 940px){ #sec-prd .prd-layout{ flex-direction:column; gap:18px; } #sec-prd .prd-toc{ display:none; } }
 .prd-hero { background:radial-gradient(120% 140% at 85% 0%, #1f2733 0%, #0d1117 60%); color:#fff; border-radius:18px; padding:46px 44px 40px; margin-bottom:34px; position:relative; overflow:hidden; box-shadow:var(--shadow-md); }
 .prd-hero::after { content:''; position:absolute; right:-40px; top:-40px; width:300px; height:300px; background:radial-gradient(circle at top right, rgba(226,55,68,.20), transparent 70%); }
 .prd-hero h2 { font-size:27px; letter-spacing:-.02em; margin-bottom:12px; position:relative; z-index:1; font-weight:700; }
@@ -787,10 +798,33 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
      SECTION 1: PRD OVERVIEW — Executive-friendly
      ================================================================ -->
 <div class="section active" id="sec-prd">
-<div class="prd-container">
+<div class="prd-layout">
+  <aside class="prd-toc">
+    <div class="toc-title">目录</div>
+    <nav class="toc-nav">
+      <a href="#prd-hero" onclick="scrollToPRD('prd-hero');return false;">概览</a>
+      <a href="#prd-exec" onclick="scrollToPRD('prd-exec');return false;">方案概述</a>
+      <a href="#prd-ba" onclick="scrollToPRD('prd-ba');return false;">现状 vs 方案</a>
+      <a href="#prd-scenario" onclick="scrollToPRD('prd-scenario');return false;">交易场景</a>
+      <a href="#prd-arch" onclick="scrollToPRD('prd-arch');return false;">系统架构</a>
+      <a href="#prd-rules" onclick="scrollToPRD('prd-rules');return false;">业务规则</a>
+      <a href="#prd-calc" onclick="scrollToPRD('prd-calc');return false;">金额计算</a>
+      <a href="#prd-faq" onclick="scrollToPRD('prd-faq');return false;">常见问题</a>
+      <div class="toc-sep"></div>
+      <a href="#prd-goal" onclick="scrollToPRD('prd-goal');return false;">目标与范围</a>
+      <a href="#prd-kpi" onclick="scrollToPRD('prd-kpi');return false;">成功指标</a>
+      <a href="#prd-nfr" onclick="scrollToPRD('prd-nfr');return false;">非功能需求</a>
+      <a href="#prd-api" onclick="scrollToPRD('prd-api');return false;">接口契约</a>
+      <a href="#prd-refund" onclick="scrollToPRD('prd-refund');return false;">退货与取消</a>
+      <a href="#prd-ops" onclick="scrollToPRD('prd-ops');return false;">上线运营</a>
+      <a href="#prd-open" onclick="scrollToPRD('prd-open');return false;">开放问题</a>
+      <a href="#prd-glossary" onclick="scrollToPRD('prd-glossary');return false;">术语表</a>
+    </nav>
+  </aside>
+  <div class="prd-container">
 
   <!-- Hero -->
-  <div class="prd-hero">
+  <div class="prd-hero" id="prd-hero">
     <h2>万代CRM优惠券核销 — 中间系统方案</h2>
     <div class="subtitle">面向万代魂 Soul CRM 会员到店消费场景，以「收银员小程序 + 管理后台」构成的中间系统，打通优惠券核销与订单同步，且无需改造门店现有 POS。</div>
     <div class="meta">
@@ -799,7 +833,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- Executive Summary: Problem / Solution / Advantage -->
-  <div class="exec-grid">
+  <div class="exec-grid" id="prd-exec">
     <div class="exec-card problem">
       <div class="ec-icon"><svg viewBox="0 0 24 24"><use href="#i-warning"></use></svg></div>
       <h3>面临的问题</h3>
@@ -823,7 +857,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- Before / After -->
-  <div class="ba-compare">
+  <div class="ba-compare" id="prd-ba">
     <div class="ba-side before">
       <h3><svg viewBox="0 0 24 24"><use href="#i-cross"></use></svg> 无系统支持时（现状）</h3>
       <ul>
@@ -851,7 +885,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   <div class="scenario-title">一个完整的交易场景</div>
   <div class="scenario-desc">以顾客王先生使用3张券购买3件商品为例，展示完整的交易流程。</div>
 
-  <div class="scenario-grid">
+  <div class="scenario-grid" id="prd-scenario">
     <div class="scenario-card">
       <div class="sc-header s1">
         <div class="sc-num">1</div>
@@ -902,7 +936,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- Architecture -->
-  <div class="arch-card">
+  <div class="arch-card" id="prd-arch">
     <h3><svg viewBox="0 0 24 24"><use href="#i-cube"></use></svg> 系统架构</h3>
     <div class="arch-diagram">┌─────────────────────────────────────────────────────┐
 │                    门店现场                           │
@@ -934,7 +968,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- Business Rules -->
-  <div class="rules-grid">
+  <div class="rules-grid" id="prd-rules">
     <div class="rule-card rc-coupon">
       <h4><svg viewBox="0 0 24 24"><use href="#i-ticket"></use></svg> 优惠券规则</h4>
       <ul>
@@ -964,7 +998,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- Calculation -->
-  <div class="calc-section">
+  <div class="calc-section" id="prd-calc">
     <h3><svg viewBox="0 0 24 24"><use href="#i-money"></use></svg> 场景金额计算（多券混合支付）</h3>
     <div class="calc-split">
       <div class="calc-split-card blue">
@@ -993,7 +1027,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- FAQ -->
-  <div class="faq-section">
+  <div class="faq-section" id="prd-faq">
     <h3><svg viewBox="0 0 24 24"><use href="#i-info"></use></svg> 常见问题</h3>
     <div class="faq-grid">
       <div class="faq-card">
@@ -1024,7 +1058,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 目标 / 范围 / 非目标 ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-goal">
     <h3><svg viewBox="0 0 24 24"><use href="#i-target"></use></svg> 目标、范围与非目标</h3>
     <div class="doc-lead">明确本期要达成什么、覆盖哪些边界、以及本期明确不做的事项，避免范围蔓延。</div>
     <div class="goal-grid">
@@ -1059,7 +1093,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 成功指标 KPI ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-kpi">
     <h3><svg viewBox="0 0 24 24"><use href="#i-chart"></use></svg> 成功指标（KPI）</h3>
     <div class="doc-lead">上线后以下列指标衡量方案成效，试点期结束复盘。基线为试点前人工作业估算，需上线后校准。</div>
     <div class="kpi-grid">
@@ -1087,7 +1121,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 非功能性需求 NFR ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-nfr">
     <h3><svg viewBox="0 0 24 24"><use href="#i-lock"></use></svg> 非功能性需求（NFR）</h3>
     <div class="doc-lead">功能之外的质量约束，是评审与验收的重要依据。</div>
     <div class="rules-grid">
@@ -1131,7 +1165,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 接口契约 ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-api">
     <h3><svg viewBox="0 0 24 24"><use href="#i-cube"></use></svg> 接口契约（与万代 CRM）</h3>
     <div class="doc-lead">统一约定：请求头含 <code>appId / timestamp / nonce / sign</code>；<code>sign=HMAC-SHA256(body+secret)</code>；写操作需传 <code>idempotencyKey</code> 保证幂等；默认超时 3s，可重试接口幂等安全。</div>
 
@@ -1198,7 +1232,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 退货 / 取消闭环 ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-refund">
     <h3><svg viewBox="0 0 24 24"><use href="#i-refresh"></use></svg> 退货与取消交易闭环</h3>
     <div class="doc-lead">补齐两条此前只在规则里提及、缺少流程的端到端场景。原型页可后续补充，本期先定义流程与接口时序。</div>
 
@@ -1220,7 +1254,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 后台补充页 & 上线运营 ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-ops">
     <h3><svg viewBox="0 0 24 24"><use href="#i-gear"></use></svg> 后台补充页与上线运营</h3>
     <div class="doc-lead">现有后台已覆盖商品映射、核销记录、交易记录、同步监控、参数配置；以下为建议补充的管理页与上线计划。</div>
     <div class="doc-table-wrap">
@@ -1250,7 +1284,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 开放问题 ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-open">
     <h3><svg viewBox="0 0 24 24"><use href="#i-info"></use></svg> 风险与开放问题（Open Questions）</h3>
     <div class="doc-lead">评审需与相关方确认的待决项，收敛后更新对应章节。</div>
     <div class="open-list">
@@ -1263,7 +1297,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   </div>
 
   <!-- ===== 术语表 & 变更记录 ===== -->
-  <div class="doc-sec">
+  <div class="doc-sec" id="prd-glossary">
     <h3><svg viewBox="0 0 24 24"><use href="#i-clipboard"></use></svg> 术语表与变更记录</h3>
     <div class="doc-table-wrap">
       <div class="dt-cap">术语表（Glossary）</div>
@@ -1291,6 +1325,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
     </div>
   </div>
 
+</div>
 </div>
 </div>
 
@@ -1993,6 +2028,31 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 </div>
 
 <script>
+// ===== PRD 目录导航（左侧 TOC：平滑跳转 + 滚动高亮） =====
+function scrollToPRD(id){
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+(function(){
+  var sec = document.getElementById('sec-prd');
+  if(!sec) return;
+  var links = sec.querySelectorAll('.prd-toc .toc-nav a');
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var targets = Object.keys(map).map(function(k){ return document.getElementById(k); }).filter(Boolean);
+  if(!('IntersectionObserver' in window) || !targets.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var a = map[e.target.id];
+        if(a) a.classList.add('active');
+      }
+    });
+  }, { root: sec, rootMargin: '0px 0px -65% 0px', threshold: 0 });
+  targets.forEach(function(t){ io.observe(t); });
+})();
+
 // ===== Tab switching =====
 function switchTab(idx) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
