@@ -574,7 +574,7 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
 /* ===========================================================
    ADMIN (back-office / data — cool indigo theme)
    =========================================================== */
-.admin-layout { display:flex; flex:1 1 auto; min-height:0; overflow:hidden; position:relative; }
+.admin-layout { display:flex; flex:1 1 auto; min-height:0; overflow:hidden; position:relative; border-radius:16px; background:#eef1f5; box-shadow:var(--shadow-md); }
 
 .ad-sidebar { width:220px; background:linear-gradient(180deg,#141a2e,#0d1322); color:#aab2c5; display:flex; flex-direction:column; position:relative; top:auto; align-self:stretch; height:100%; min-height:0; border-radius:0 0 14px 0; z-index:5; box-shadow:var(--shadow-md); }
 .ad-sidebar-logo { padding:20px; border-bottom:1px solid rgba(255,255,255,.07); }
@@ -598,7 +598,7 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
 
 .pg { display:none; }
 .pg.active { display:block; animation:fade-in-up .3s ease; }
-.pg-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; gap:12px; }
+.pg-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow-sm); }
 .pg-title { font-size:19px; font-weight:700; letter-spacing:-.01em; }
 .pg-crumb { font-size:12px; color:var(--text-sec); margin-top:2px; }
 .pg-actions { display:flex; gap:8px; }
@@ -800,7 +800,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 19 5 12 12 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
-<!-- deploy-cache-bust:2026-07-21T13:59:19 -->
+<!-- deploy-cache-bust:2026-07-21T14:15:04 -->
 </head>
 <body>
 
