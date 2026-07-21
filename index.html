@@ -231,11 +231,19 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
 .goal-card h4 { font-size:14px; font-weight:600; margin-bottom:12px; color:var(--ink); }
 .goal-card ul { padding-left:18px; margin:0; }
 .goal-card li { font-size:13px; color:#475569; line-height:1.85; }
-.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 .kpi-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm); }
 .kpi-card .kpi-name { font-size:12.5px; color:var(--text-sec); margin-bottom:10px; }
 .kpi-card .kpi-val { font-size:15px; font-weight:700; color:var(--ink); letter-spacing:-.01em; line-height:1.4; }
 .kpi-card .kpi-base { font-size:11.5px; color:var(--text-sec); margin-top:8px; }
+.milestone-row { display:flex; gap:14px; margin-top:16px; flex-wrap:wrap; }
+.milestone { flex:1 1 0; min-width:240px; display:flex; align-items:center; gap:18px; padding:18px 22px; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow-sm); }
+.milestone .ms-date { font-size:22px; font-weight:700; color:var(--accent); letter-spacing:-.01em; line-height:1.05; flex:0 0 auto; }
+.milestone .ms-info { display:flex; flex-direction:column; }
+.milestone .ms-tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:var(--accent); letter-spacing:.03em; margin-bottom:3px; }
+.milestone .ms-tag .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
+.milestone .ms-name { font-size:14.5px; font-weight:600; color:var(--ink); }
+.milestone .ms-desc { font-size:11.5px; color:var(--text-sec); margin-top:2px; }
 .doc-table-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); overflow:hidden; margin-bottom:16px; }
 .doc-table-wrap .dt-cap { font-size:13px; font-weight:600; color:var(--ink); padding:14px 18px 0; display:flex; align-items:center; gap:8px; }
 .doc-table-wrap .dt-cap code { font-family:var(--mono,ui-monospace,SFMono-Regular,Menlo,monospace); font-size:12px; background:#f1f3f6; color:var(--accent-strong); padding:2px 8px; border-radius:6px; }
@@ -1124,7 +1132,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
   <!-- ===== 成功指标 KPI ===== -->
   <div class="doc-sec" id="prd-kpi">
     <h3><svg viewBox="0 0 24 24"><use href="#i-chart"></use></svg> 成功指标（KPI）</h3>
-    <div class="doc-lead">上线后以下列指标衡量方案成效，试点期结束复盘。基线为试点前人工作业估算，需上线后校准。</div>
+    <div class="doc-lead">以「质量指标 + 关键时间节点」双维度衡量方案成效，确保按时、保质交付。</div>
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-name">验券/金额计算错误率</div>
@@ -1141,10 +1149,23 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
         <div class="kpi-val">≥ 99.5%</div>
         <div class="kpi-base">含 4 次重试后统计</div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-name">试点门店覆盖</div>
-        <div class="kpi-val">≥ 5 家 / 首月</div>
-        <div class="kpi-base">快闪店优先</div>
+    </div>
+    <div class="milestone-row">
+      <div class="milestone">
+        <div class="ms-date">8/17</div>
+        <div class="ms-info">
+          <span class="ms-tag"><span class="dot"></span>关键节点</span>
+          <span class="ms-name">联调启动</span>
+          <span class="ms-desc">开启与万代 CRM 的接口联调</span>
+        </div>
+      </div>
+      <div class="milestone">
+        <div class="ms-date">12/1</div>
+        <div class="ms-info">
+          <span class="ms-tag"><span class="dot"></span>硬性上线</span>
+          <span class="ms-name">正式上线</span>
+          <span class="ms-desc">门店端全量投产，须按期达成</span>
+        </div>
       </div>
     </div>
   </div>
