@@ -2214,6 +2214,7 @@ function drawLines(type, hlKey) {
   });
 
   const vh = window.innerHeight;
+  const svgRect = svg.getBoundingClientRect();
   const specs = area.querySelectorAll('[data-spec]');
   const conns = [];
   specs.forEach(el => {
@@ -2239,10 +2240,11 @@ function drawLines(type, hlKey) {
       scrollContainer = scrollContainer.parentElement;
     }
 
-    const x1 = srcRect.right;
-    const y1 = srcRect.top + srcRect.height/2;
-    const x2 = tgtRect.left;
-    const y2 = tgtRect.top + tgtRect.height/2;
+    // 坐标相对 SVG 自身（抵消 fixed 被 transform 祖先劫持导致的整体偏移）
+    const x1 = srcRect.right - svgRect.left;
+    const y1 = srcRect.top + srcRect.height/2 - svgRect.top;
+    const x2 = tgtRect.left - svgRect.left;
+    const y2 = tgtRect.top + tgtRect.height/2 - svgRect.top;
 
     if(x1 >= x2 - 10) return;
 
@@ -2339,6 +2341,10 @@ let resizeTimer;
 window.addEventListener('resize', ()=>{
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(scheduleRedraw, 100);
+});
+// 切换 tab 的淡入动效结束后，连线坐标可能随 transform 收尾而微调，重绘一次兜底
+document.querySelectorAll('.section').forEach(sec => {
+  sec.addEventListener('animationend', () => scheduleRedraw());
 });
 
 // Attach scroll listeners to all scrollable containers for rAF-based redraw
