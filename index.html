@@ -52,10 +52,10 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
   backdrop-filter: saturate(180%) blur(16px);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   border-bottom: 1px solid var(--border);
-  display:flex; align-items:center; justify-content:space-between;
+  display:grid; grid-template-columns: 1fr auto 1fr; align-items:center;
   padding:0 40px; height:58px; flex:0 0 auto; position:relative; z-index:300;
 }
-.brand { display:flex; align-items:center; gap:12px; min-width:0; }
+.brand { display:flex; align-items:center; gap:12px; min-width:0; justify-self:start; }
 .brand-mark {
   width:40px; height:40px; border-radius:10px; flex:0 0 auto;
   overflow:hidden; background:#fff; position:relative;
@@ -67,21 +67,32 @@ body { height:100vh; overflow:hidden; display:flex; flex-direction:column; font-
 .brand-div { width:1px; height:13px; background:var(--border-strong); flex:0 0 auto; }
 .brand-sub { font-size:13px; color:var(--text-sec); white-space:nowrap; letter-spacing:.01em; }
 
-.top-nav { display:flex; align-items:center; gap:2px; margin-left:auto; }
+.top-nav { display:flex; align-items:center; gap:4px; justify-self:center; }
 .tab-btn {
-  padding:8px 15px; font-size:14px; font-weight:500; cursor:pointer; border:none;
+  padding:9px 16px; font-size:14px; font-weight:500; cursor:pointer; border:none;
   background:none; color:var(--text-sec); border-radius:9px;
-  transition: color .15s, background .15s; position:relative; white-space:nowrap;
+  transition: color .22s ease, background .22s ease, transform .22s ease; position:relative; white-space:nowrap;
 }
 .tab-btn:hover { color:var(--ink); background:#f4f5f7; }
-.tab-btn.active { color:var(--accent); background:var(--accent-soft); font-weight:600; }
+.tab-btn:active { transform: scale(.96); }
+.tab-btn.active { color:var(--accent); font-weight:600; background:none; }
+.tab-indicator {
+  position:absolute; bottom:0; left:0; height:2px; width:0; background:var(--accent);
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition: transform .36s cubic-bezier(.22,1,.36,1), width .36s cubic-bezier(.22,1,.36,1);
+}
 .badge { background:var(--accent); color:#fff; padding:4px 12px; border-radius:999px; font-size:11.5px; font-weight:600; letter-spacing:.02em; }
-.top-actions { display:flex; align-items:center; margin-left:20px; }
+.top-actions { display:flex; align-items:center; justify-self:end; }
 
 /* ===== Sections ===== */
 .section { display:none; }
 .section.active { flex:1 1 auto; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
 #sec-prd.section.active { display:block; overflow-y:auto; }
+.sec-in { animation: secIn .46s cubic-bezier(.22,1,.36,1) both; }
+@keyframes secIn {
+  from { opacity:0; transform: translateY(14px); }
+  to   { opacity:1; transform:none; }
+}
 
 /* ===========================================================
    PER-END THEME SCOPES
@@ -792,6 +803,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
     <button class="tab-btn" onclick="switchTab(1)">收银员小程序原型</button>
     <button class="tab-btn" onclick="switchTab(2)">后台管理原型</button>
   </nav>
+  <span class="tab-indicator"></span>
   <div class="top-actions">
     <span class="badge">v2.1</span>
   </div>
@@ -2081,12 +2093,30 @@ function scrollToPRD(id){
 })();
 
 // ===== Tab switching =====
+function positionIndicator(animate){
+  var bar = document.querySelector('.top-bar');
+  var ind = document.querySelector('.tab-indicator');
+  var active = document.querySelector('.tab-btn.active');
+  if(!bar || !ind || !active) return;
+  var br = bar.getBoundingClientRect();
+  var ar = active.getBoundingClientRect();
+  if(animate === false) ind.style.transition = 'none';
+  ind.style.width = ar.width + 'px';
+  ind.style.transform = 'translateX(' + (ar.left - br.left) + 'px)';
+  if(animate === false){ void ind.offsetWidth; ind.style.transition = ''; }
+}
 function switchTab(idx) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
   document.querySelectorAll('.section').forEach((s,i) => s.classList.toggle('active', i===idx));
   if(idx===1) setTimeout(()=>drawLines('mp'), 100);
   if(idx===2) setTimeout(()=>drawLines('admin'), 100);
+  // replay premium entrance animation on the incoming section
+  var sec = document.querySelectorAll('.section')[idx];
+  if(sec){ sec.classList.remove('sec-in'); void sec.offsetWidth; sec.classList.add('sec-in'); }
+  positionIndicator(true);
 }
+window.addEventListener('load', function(){ positionIndicator(false); if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ positionIndicator(false); }); });
+window.addEventListener('resize', function(){ positionIndicator(false); });
 
 // ===== Mini-program screen switching =====
 function switchMP(idx) {
