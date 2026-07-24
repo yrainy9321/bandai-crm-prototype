@@ -1017,7 +1017,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 19 5 12 12 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
-<!-- deploy-cache-bust:2026-07-24T22:00:56 -->
+<!-- deploy-cache-bust:2026-07-24T22:09:40 -->
 </head>
 <body>
 
@@ -1131,7 +1131,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
         <li>扫码识别会员，小程序自动拉取会员信息和可用券</li>
         <li>系统自动计算优惠金额，生成POS端条码供扫描录入</li>
         <li>券适用规则、等级限购等由系统自动校验</li>
-        <li>交易完成后异步同步至万代CRM，含重试机制</li>
+        <li>交易完成后实时同步至万代CRM，含重试机制</li>
         <li>退货规则内置系统，支持原路退回和券状态回滚</li>
       </ul>
     </div>
@@ -1184,9 +1184,9 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
       </div>
       <div class="sc-body">
         <div class="sc-action"><span class="sc-badge cashier">收银员</span><span class="sc-action-text">回到小程序点击"支付完成，确认并同步"</span></div>
-        <div class="sc-action"><span class="sc-badge system">系统</span><span class="sc-action-text">自动核销3张券（调用coupon/consume），异步同步订单至万代CRM</span></div>
+        <div class="sc-action"><span class="sc-badge system">系统</span><span class="sc-action-text">自动核销3张券（调用coupon/consume），实时同步订单至万代CRM</span></div>
         <div class="sc-action"><span class="sc-badge system">系统</span><span class="sc-action-text">展示交易完成页面：3件商品、优惠¥710、实付¥1,220</span></div>
-        <div class="sc-action"><span class="sc-badge customer">顾客</span><span class="sc-action-text">7天后在万代CRM小程序中看到积分和等级更新</span></div>
+        <div class="sc-action"><span class="sc-badge customer">顾客</span><span class="sc-action-text">在万代CRM小程序中立即看到积分和等级更新（接口实时同步）</span></div>
       </div>
     </div>
   </div>
@@ -1248,7 +1248,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
         <li><strong>退货不返还券</strong>：已核销的券不予返还，只退顾客实付金额</li>
         <li><strong>跨店退货</strong>：仅支持同一代理商下的快闪店之间</li>
         <li><strong>同步失败重试</strong>：1min → 5min → 30min → 2h，最多4次</li>
-        <li><strong>数据回传</strong>：交易完成后异步同步订单，万代侧于 7 天后自动重算积分与等级</li>
+        <li><strong>数据回传</strong>：交易完成后接口实时同步订单，万代侧实时重算积分与等级</li>
       </ul>
     </div>
   </div>
@@ -1322,7 +1322,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
         <h4>本期目标（Goals）</h4>
         <ul>
           <li>让门店在<strong>不改造 POS</strong>的前提下，完成万代会员识别、验券与优惠金额计算</li>
-          <li>券核销与订单数据可<strong>异步回传</strong>万代 CRM，支撑积分与等级更新</li>
+          <li>券核销与订单数据可<strong>实时回传</strong>万代 CRM，支撑积分与等级更新</li>
           <li>为收银员提供<strong>可照做的操作指引</strong>，降低人工计算与验券出错率</li>
           <li>支持首批<strong>快闪店试点</strong>快速部署上线</li>
         </ul>
@@ -1468,7 +1468,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
       <table class="doc-table">
         <thead><tr><th>接口</th><th>关键入参</th><th>成功响应</th><th>错误码 / 说明</th></tr></thead>
         <tbody>
-          <tr><td><code>POST trade/order/sync</code></td><td>orderNo、memberCode、items[]、payAmount、couponNo[]、idempotencyKey</td><td>syncStatus=accepted</td><td>异步；<code>5001</code>参数错 / <code>5002</code>会员不匹配；失败进重试队列</td></tr>
+          <tr><td><code>POST trade/order/sync</code></td><td>orderNo、memberCode、items[]、payAmount、couponNo[]、idempotencyKey</td><td>syncStatus=synced</td><td>实时同步；<code>5001</code>参数错 / <code>5002</code>会员不匹配；失败进重试队列</td></tr>
           <tr><td><code>POST trade/refund/sync</code></td><td>orderNo、refundNo、refundAmount、returnItems[]</td><td>refundStatus=accepted</td><td>券不返还；<code>5101</code>原单不存在 / <code>5102</code>超退</td></tr>
         </tbody>
       </table>
@@ -1897,7 +1897,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
           <div class="sp-block" data-spec="mp3-1"><h4>金额计算逻辑</h4><table class="ft"><tr><th>计算项</th><th>公式</th><th>示例</th></tr><tr><td>商品合计</td><td>所有商品原价之和</td><td>¥580+¥1,000+¥350=¥1,930</td></tr><tr><td>优惠合计</td><td>所有券的抵扣金额之和</td><td>¥580+¥100+¥30=¥710</td></tr><tr><td>顾客实付</td><td>商品合计 - 优惠合计</td><td>¥1,930-¥710=¥1,220</td></tr><tr><td>会员验券金额</td><td>= 优惠合计</td><td>¥710</td></tr><tr><td>现金/扫码金额</td><td>= 顾客实付</td><td>¥1,220</td></tr></table></div>
           <div class="sp-block" data-spec="mp3-2"><h4>组合支付分配</h4><p>会员验券金额代表CRM承担的优惠部分（¥710），现金/扫码金额代表顾客实际支付部分（¥1,220）。</p><div class="info"><strong>纯兑换场景</strong>：当所有商品都是0元兑换时，无需组合支付。操作步骤简化为：①扫码 → ②选择"会员验券"收款方式 → ③确认完成。应收金额为¥0。</div></div>
           <div class="sp-block" data-spec="mp3-3"><h4>操作步骤（固定4步）</h4><ol class="fl"><li>用扫码枪依次扫描商品条码（商品录入POS）</li><li>在POS上选择"组合支付"</li><li>输入会员验券金额和现金/扫码金额（按页面显示值）</li><li>完成收款后回到小程序点击"确认并同步"</li></ol></div>
-          <div class="sp-block"><h4>后端API调用</h4><p>点击"确认并同步"后，后台异步执行：</p><span class="api">POST /v1/0.0/api/coupon/consume（券核销）</span><span class="api">POST /v1/0.1/api/trade/order/sync（订单同步）</span><div class="info">核销时传入 <code>lockTransactionId</code> 完成券的最终核销。同步失败自动重试（1min、5min、30min、2h，最多4次）。</div></div>
+          <div class="sp-block"><h4>后端API调用</h4><p>点击"确认并同步"后，后台实时调用：</p><span class="api">POST /v1/0.0/api/coupon/consume（券核销）</span><span class="api">POST /v1/0.1/api/trade/order/sync（订单同步）</span><div class="info">核销时传入 <code>lockTransactionId</code> 完成券的最终核销。同步失败自动重试（1min、5min、30min、2h，最多4次）。</div></div>
         </div>
       </div>
 
@@ -1906,8 +1906,8 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
         <div class="sp-hd"><h3>页面5：交易完成</h3><p>展示交易结果，支持开始新交易</p></div>
         <div class="sp-bd">
           <div class="sp-block" data-spec="mp4-1"><h4>展示信息</h4><table class="ft"><tr><th>字段</th><th>说明</th></tr><tr><td>订单号</td><td>中间系统生成的订单编号</td></tr><tr><td>交易时间</td><td>POS完成收款的时间</td></tr><tr><td>商品数量</td><td>本次交易的商品总件数</td></tr><tr><td>优惠金额</td><td>所有券的优惠/抵扣金额合计</td></tr><tr><td>实付金额</td><td>顾客实际支付的金额</td></tr><tr><td>核销券</td><td>本次核销的券数量和列表</td></tr></table></div>
-          <div class="sp-block"><h4>数据同步状态</h4><p>页面显示"数据已同步至万代CRM"是乐观展示——实际上同步是异步的。如果同步最终失败，后台会记录异常并在管理后台告警，不影响收银员继续下一笔交易。</p></div>
-          <div class="sp-block" data-spec="mp4-2"><h4>后续操作</h4><ul><li><strong>开始新交易</strong>：清除当前交易所有数据，返回首页重新扫码</li><li><strong>万代后续处理</strong>：万代在订单同步7天后自动计算会员等级和积分变更</li></ul></div>
+          <div class="sp-block"><h4>数据同步状态</h4><p>页面显示"数据已实时同步至万代CRM"——订单通过接口实时回传，积分与等级即时更新。如果同步失败，后台会记录异常、在管理后台告警并自动重试，不影响收银员继续下一笔交易。</p></div>
+          <div class="sp-block" data-spec="mp4-2"><h4>后续操作</h4><ul><li><strong>开始新交易</strong>：清除当前交易所有数据，返回首页重新扫码</li><li><strong>万代后续处理</strong>：万代在订单实时同步后即时计算会员等级和积分变更</li></ul></div>
           <div class="sp-block"><h4>退货不返还券</h4><div class="warn"><strong>重要规则</strong>：已核销的优惠券在退货时不予返还。退货退款只退还顾客实际支付的金额部分，券的核销状态不可逆。退货通过 <code>/trade/refund/sync</code> 接口同步。</div></div>
         </div>
       </div>
