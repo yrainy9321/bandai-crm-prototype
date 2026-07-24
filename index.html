@@ -1017,7 +1017,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 19 5 12 12 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
-<!-- deploy-cache-bust:2026-07-24T22:09:40 -->
+<!-- deploy-cache-bust:2026-07-24T22:13:05 -->
 </head>
 <body>
 
@@ -2917,7 +2917,7 @@ let fabPos = null;
   const screen = document.getElementById('winScreen');
   if(!fab || !screen) return;
   const body = screen.querySelector('.win-screen-body')||screen;
-  try { const saved = localStorage.getItem('winFabPos'); if(saved){ fabPos = JSON.parse(saved); } } catch(_){}
+  try { const saved = localStorage.getItem('winFabPos_v2'); if(saved){ fabPos = JSON.parse(saved); } } catch(_){}
   if(fabPos){ fab.style.right='auto'; fab.style.bottom='auto'; fab.style.left=fabPos.x+'px'; fab.style.top=fabPos.y+'px'; }
   let dragging=false, moved=0, sx=0, sy=0, ox=0, oy=0;
   const box = ()=> body.getBoundingClientRect();
@@ -2947,11 +2947,27 @@ let fabPos = null;
     } else {
       // 真实拖动：记录位置并重新布局面板，使其从 FAB 弹出
       fabPos = { x: fab.offsetLeft, y: fab.offsetTop };
-      try { localStorage.setItem('winFabPos', JSON.stringify(fabPos)); } catch(_){}
+      try { localStorage.setItem('winFabPos_v2', JSON.stringify(fabPos)); } catch(_){}
       layoutWinPanels();
     }
   });
 })();
+// 悬浮按钮默认位置：背景图垂直居中、水平偏左（未拖动/无保存位置时生效）
+function ensureFabDefaultPos(){
+  const screen = document.getElementById('winScreen');
+  if(!screen) return;
+  const body = screen.querySelector('.win-screen-body')||screen;
+  const fab = document.getElementById('winFab');
+  if(!fab || fabPos) return;                 // 用户已拖动或已有保存位置，则不覆盖
+  const b = body.getBoundingClientRect();
+  if(b.width < 20 || b.height < 20) return;   // 容器尚未可见，跳过（切到该 tab 后会再次调用）
+  const fw = fab.offsetWidth || 34, fh = fab.offsetHeight || 34;
+  const left = Math.round(b.width * 0.40 - fw / 2);  // 水平：中部偏左一点
+  const top  = Math.round(b.height * 0.50 - fh / 2); // 垂直：居中
+  fab.style.right = 'auto'; fab.style.bottom = 'auto';
+  fab.style.left = Math.max(4, left) + 'px';
+  fab.style.top  = Math.max(4, top) + 'px';
+}
 function layoutWinPanels(){
   const screen = document.getElementById('winScreen');
   if(!screen) return;
@@ -2959,6 +2975,7 @@ function layoutWinPanels(){
   const b = body.getBoundingClientRect();
   const fab = document.getElementById('winFab');
   if(!fab) return;
+  ensureFabDefaultPos();
   const fLeft = fab.offsetLeft, fTop = fab.offsetTop, fW = fab.offsetWidth;
   body.querySelectorAll('.win-panel').forEach(function(p){
     p.classList.add('win-pop');
