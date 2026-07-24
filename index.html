@@ -1017,7 +1017,7 @@ h4 svg { width:15px; height:15px; vertical-align:-2px; margin-right:5px; }
 <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 19 5 12 12 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-cube" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
-<!-- deploy-cache-bust:2026-07-24T22:13:05 -->
+<!-- deploy-cache-bust:2026-07-24T22:16:42 -->
 </head>
 <body>
 
@@ -2962,7 +2962,7 @@ function ensureFabDefaultPos(){
   const b = body.getBoundingClientRect();
   if(b.width < 20 || b.height < 20) return;   // 容器尚未可见，跳过（切到该 tab 后会再次调用）
   const fw = fab.offsetWidth || 34, fh = fab.offsetHeight || 34;
-  const left = Math.round(b.width * 0.40 - fw / 2);  // 水平：中部偏左一点
+  const left = 28;                                   // 水平：距最左边缘往里 28px
   const top  = Math.round(b.height * 0.50 - fh / 2); // 垂直：居中
   fab.style.right = 'auto'; fab.style.bottom = 'auto';
   fab.style.left = Math.max(4, left) + 'px';
